@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../db").import("../models/user");
+const { User } = require("../models");
 
 const validateSession = (req, res, next) => {
   const token = req.headers.authorization;
@@ -12,7 +12,7 @@ const validateSession = (req, res, next) => {
     //call upon JWT package and invoke verify method
     //jwt.verify(token, secretorPublicKey, [options, callback])
     //verify method decodes the token
-    //in callback, decodeToken will contain decoded payload, IF sucessful
+    //in callback, decodeToken will contain decoded payload, IF successful
     //if not successful, decodeToken remains undefined, err is null by default
     jwt.verify(token, process.env.JWT_SECRET, (err, decodeToken) => {
       console.log("decodeToken -->", decodeToken);
