@@ -1,5 +1,5 @@
 module.exports = {
-  User: require("./usercontroller"),
-  Address: require("./addresscontroller"),
-  Gift: require("./"),
+  User: require("./userController"),
+  Address: require("./addressController"),
+  Gift: require("./giftController"),
 };

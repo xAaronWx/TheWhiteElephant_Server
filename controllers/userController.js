@@ -5,7 +5,8 @@ const { User } = require("../models");
 const validateSession = require("../middleware/validate-session");
 
 // CREATE A NEW USER
-Router.post("/create", function (req, res) {
+const router = Router();
+router.post("/create", function (req, res) {
   User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
