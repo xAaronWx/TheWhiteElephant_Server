@@ -4,6 +4,7 @@ const { Router } = require("express");
 const { User } = require("../models");
 const validateSession = require("../middleware/validate-session");
 
+// CREATE A NEW USER
 Router.post("/create", function (req, res) {
   User.create({
     firstName: req.body.firstName,
@@ -28,6 +29,7 @@ Router.post("/create", function (req, res) {
     });
 });
 
+// LOGIN USER
 router.post("/login", function (req, res) {
   User.findOne({
     where: {

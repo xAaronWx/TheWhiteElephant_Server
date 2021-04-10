@@ -3,6 +3,7 @@ const { Address } = require("../models");
 const validateSession = require("../middleware/validate-session");
 const router = Router();
 
+// CREATE USER ADDRESS DETAILS
 router.post("/create", validateSession, function (req, res) {
   console.log(req.user.id);
   const addressEntry = {
@@ -17,7 +18,7 @@ router.post("/create", validateSession, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-// Find an owner to an address
+// FIND AN OWNER TO AN ADDRESS
 router.get("/get", validateSession, function (req, res) {
   const query = {
     where: { userId: req.user.id },
