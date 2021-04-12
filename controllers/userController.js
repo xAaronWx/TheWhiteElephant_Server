@@ -17,10 +17,12 @@ router.post("/create", function (req, res) {
       let token = jwt.sign(
         { id: user.id, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: 60 * 60 * 24 }
+        {
+          expiresIn: 60 * 60 * 24,
+        }
       );
       res.json({
-        email: email,
+        email: user.email,
         message: "User Successfully Created",
         sessionToken: token,
       });
@@ -50,7 +52,7 @@ router.post("/login", function (req, res) {
                 { expiresIn: 60 * 60 * 24 }
               );
               res.status(200).json({
-                email: email,
+                email: user.email,
                 message: "User Successfully Logged in!",
                 sessionToken: token,
               });

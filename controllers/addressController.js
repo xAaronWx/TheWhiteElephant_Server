@@ -29,4 +29,6 @@ router.get("/get", validateSession, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+// TODO -- ADD ADDRESS UPDATE ABILITY
+
 module.exports = router;

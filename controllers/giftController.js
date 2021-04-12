@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { Baby, Address, Gift } = require("../models");
+const { User, Address, Gift } = require("../models");
 const validateSession = require("../middleware/validate-session");
 const { increment } = require("../models/user");
 const router = Router();
@@ -14,8 +14,8 @@ router.post("/create", validateSession, function (req, res) {
     description: req.body.description,
     giftImage: req.body.giftImage,
   };
-  GiftItem.create(giftEntry)
-    .then((baby) => res.status(200).json(gift))
+  Gift.create(giftEntry)
+    .then((gift) => res.status(200).json(gift))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
