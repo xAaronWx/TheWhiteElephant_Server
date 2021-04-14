@@ -6,13 +6,13 @@ const router = Router();
 
 // USER CREATES NEW GIFT ITEM
 router.post("/create", validateSession, function (req, res) {
-  console.log(req.user.id);
   const giftEntry = {
     itemType: req.body.itemType,
     name: req.body.name,
     weight: req.body.weight,
     description: req.body.description,
     giftImage: req.body.giftImage,
+    userId: req.body.id,
   };
   Gift.create(giftEntry)
     .then((gift) => res.status(200).json(gift))
@@ -20,19 +20,19 @@ router.post("/create", validateSession, function (req, res) {
 });
 
 // RETURN A USERS GIFTS
-router.get("/yours", validateSession, function (req, res) {
+router.get("/mine", validateSession, function (req, res) {
   const query = {
     where: { userId: req.user.id },
     include: "email",
   };
-  GiftItem.findAll(query)
-    .then((gift) => res.status(200).json(gift))
-    .catch((err) => res.status(500).json({ error: err }));
+  Gift.findAll(query)
+    .then((yourGifts) => res.status(200).json(yourGifts))
+    .catch((err) => res.status(500).json({ error: "Can't locate gifts" }));
 });
 
 // GET ALL GIFTS CREATED
 router.get("/", function (req, res) {
-  GiftItem.findAll()
+  Gift.findAll()
     .then((allGifts) => res.status(200).json(allGifts))
     .catch((err) => res.status(500).json({ error: err }));
 });
@@ -48,7 +48,7 @@ router.put("/update/:giftId", validateSession, function (req, res) {
   };
   const query = { where: { id: req.params.giftId, owner: req.user.id } };
 
-  GiftItem.update(updateGift, query)
+  Gift.update(updateGift, query)
     .then((gifts) => res.status(200).json(gifts))
     .catch((err) => res.status(500).json({ error: err }));
 });
@@ -56,10 +56,8 @@ router.put("/update/:giftId", validateSession, function (req, res) {
 // DELETE A GIFT
 router.delete("/delete/:id", validateSession, function (req, res) {
   const query = { where: { id: req.params.id, owner: req.user.id } };
-  GiftItem.destroy(query)
-    .then(() =>
-      res.status(200).json({ message: "This message has been removed" })
-    )
+  Gift.destroy(query)
+    .then(() => res.status(200).json({ message: "This gift has been removed" }))
     .catch((err) => res.status(500).json({ error: err }));
 });
 

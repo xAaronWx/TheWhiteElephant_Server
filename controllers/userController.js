@@ -12,7 +12,7 @@ router.post("/create", function (req, res) {
     lastName: req.body.lastName,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 15),
-    role: "User",
+    role: "user",
   })
     .then(function createSuccess(user) {
       let token = jwt.sign(
