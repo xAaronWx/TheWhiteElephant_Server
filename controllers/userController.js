@@ -71,14 +71,23 @@ router.post("/login", function (req, res) {
 });
 
 // DELETE A USER
-router.delete("/user/:id", validateAdmin, function (req, res) {
-  const query = { where: { id: req.params.id } };
+router.delete(
+  "/delete/:userId",
+  validateSession,
+  validateAdmin,
+  function (req, res) {
+    const query = { where: { id: req.params.userId } };
 
-  Log.destroy(query)
-    .then(() => res.status(200).json({ message: "The user has been deleted" }))
-    .catch((err) =>
-      res.status(500).json({ error: err, message: "Houston we have a problem" })
-    );
-});
+    User.destroy(query)
+      .then(() =>
+        res.status(200).json({ message: "The user has been deleted" })
+      )
+      .catch((err) =>
+        res
+          .status(500)
+          .json({ error: err, message: "Houston we have a problem" })
+      );
+  }
+);
 
 module.exports = router;
