@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { User, Address, Gift } = require("../models");
 const validateSession = require("../middleware/validate-session");
+const validateAdmin = require("../middleware/validate-admin");
 const { increment } = require("../models/user");
 const router = Router();
 
@@ -12,7 +13,7 @@ router.post("/create", validateSession, function (req, res) {
     weight: req.body.weight,
     description: req.body.description,
     giftImage: req.body.giftImage,
-    userId: req.body.id,
+    userId: req.user.id,
   };
   Gift.create(giftEntry)
     .then((gift) => res.status(200).json(gift))
@@ -23,7 +24,6 @@ router.post("/create", validateSession, function (req, res) {
 router.get("/mine", validateSession, function (req, res) {
   const query = {
     where: { userId: req.user.id },
-    include: "email",
   };
   Gift.findAll(query)
     .then((yourGifts) => res.status(200).json(yourGifts))
@@ -40,13 +40,13 @@ router.get("/", function (req, res) {
 // UPDATE GIFT DETAILS
 router.put("/update/:giftId", validateSession, function (req, res) {
   const updateGift = {
-    itemType: req.body.gift.itemType,
-    name: req.body.gift.name,
-    weight: req.body.gift.weight,
-    description: req.body.gift.description,
-    giftImage: req.body.gift.giftImage,
+    itemType: req.body.itemType,
+    name: req.body.name,
+    weight: req.body.weight,
+    description: req.body.description,
+    giftImage: req.body.giftImage,
   };
-  const query = { where: { id: req.params.giftId, owner: req.user.id } };
+  const query = { where: { id: req.params.giftId, userId: req.user.id } };
 
   Gift.update(updateGift, query)
     .then((gifts) => res.status(200).json(gifts))
@@ -55,7 +55,7 @@ router.put("/update/:giftId", validateSession, function (req, res) {
 
 // DELETE A GIFT
 router.delete("/delete/:id", validateSession, function (req, res) {
-  const query = { where: { id: req.params.id, owner: req.user.id } };
+  const query = { where: { id: req.params.id, userId: req.user.id } };
   Gift.destroy(query)
     .then(() => res.status(200).json({ message: "This gift has been removed" }))
     .catch((err) => res.status(500).json({ error: err }));

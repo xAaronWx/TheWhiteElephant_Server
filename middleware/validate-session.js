@@ -37,7 +37,7 @@ const validateSession = (req, res, next) => {
       } else {
         req.errors = err;
         //if no value for decodeToken, take err parameter from original function and append it to the req object as new key-value pair
-        return res.status(500).send("Not Authorized");
+        return res.status(500).send("Not a valid token");
       }
     });
   }

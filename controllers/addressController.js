@@ -15,18 +15,20 @@ router.post("/create", validateSession, function (req, res) {
   };
   Address.create(addressEntry)
     .then((address) => res.status(200).json(address))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) =>
+      res.status(500).json({ error: "You already have an address on file" })
+    );
 });
 
-// ADDRESS UPDATE ABILITY
+// UPDATE AN ADDRESS
 router.put("/update/:addressId", validateSession, function (req, res) {
   const updateAddress = {
-    street: req.body.address.street,
-    city: req.body.address.city,
-    state: req.body.address.state,
-    zipcode: req.body.address.zipcode,
+    street: req.body.street,
+    city: req.body.city,
+    state: req.body.state,
+    zipcode: req.body.zipcode,
   };
-  const query = { where: { id: req.params.addressId, owner: req.user.id } };
+  const query = { where: { id: req.params.addressId, userId: req.user.id } };
 
   Address.update(updateAddress, query)
     .then((address) => res.status(200).json(address))

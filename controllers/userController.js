@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { Router } = require("express");
 const { User } = require("../models");
 const validateSession = require("../middleware/validate-session");
+const validateAdmin = require("../middleware/validate-admin");
 
 // CREATE A NEW USER
 const router = Router();
@@ -67,6 +68,17 @@ router.post("/login", function (req, res) {
       }
     })
     .catch((err) => res.status(500).json({ error: err }));
+});
+
+// DELETE A USER
+router.delete("/user/:id", validateAdmin, function (req, res) {
+  const query = { where: { id: req.params.id } };
+
+  Log.destroy(query)
+    .then(() => res.status(200).json({ message: "The user has been deleted" }))
+    .catch((err) =>
+      res.status(500).json({ error: err, message: "Houston we have a problem" })
+    );
 });
 
 module.exports = router;
