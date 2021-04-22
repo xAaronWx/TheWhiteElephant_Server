@@ -5,11 +5,12 @@ const db = require("./db");
 const app = Express();
 
 // Import middlewares as a bundle
-const middlewares = require("./middleware");
+// const middlewares = require("./middleware");
 
 // Import controllers as a bundle
 const controllers = require("./controllers");
 
+app.use(require("./middleware/cors"));
 // Parse the body of all requests as JSON
 app.use(Express.json());
 
