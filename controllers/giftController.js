@@ -55,10 +55,24 @@ router.put("/update/:giftId", validateSession, function (req, res) {
 
 // DELETE A GIFT
 router.delete("/delete/:id", validateSession, function (req, res) {
-  const query = { where: { id: req.params.id, userId: req.user.id } };
-  Gift.destroy(query)
-    .then(() => res.status(200).json({ message: "This gift has been removed" }))
-    .catch((err) => res.status(500).json({ error: err }));
+  const query = {
+    where: { id: req.params.id, userId: req.user.id },
+  };
+  const admin = { where: { id: req.params.id } };
+
+  if (req.user.role === "user") {
+    Gift.destroy(query)
+      .then(() =>
+        res.status(200).json({ message: "This gift has been removed" })
+      )
+      .catch((err) => res.status(500).json({ error: err }));
+  } else {
+    Gift.destroy(query, admin)
+      .then(() =>
+        res.status(200).json({ message: "This gift has been removed" })
+      )
+      .catch((err) => res.status(500).json({ error: err }));
+  }
 });
 
 module.exports = router;

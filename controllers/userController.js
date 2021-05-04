@@ -27,6 +27,7 @@ router.post("/create", function (req, res) {
         email: user.email,
         message: "User Successfully Created",
         sessionToken: token,
+        role: user.role,
       });
     })
     .catch(function (err) {
@@ -57,6 +58,7 @@ router.post("/login", function (req, res) {
                 email: user.email,
                 message: "User Successfully Logged in!",
                 sessionToken: token,
+                role: user.role,
               });
             } else {
               res.status(502).send({ error: "Login Failed" });
