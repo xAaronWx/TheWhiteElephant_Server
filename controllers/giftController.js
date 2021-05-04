@@ -75,4 +75,14 @@ router.delete("/delete/:id", validateSession, function (req, res) {
   }
 });
 
+// router.delete("/delete/:id", validateSession, async (req, res) => {
+//   const account_type = await req.user.role;
+//   if (account_type === "user") {
+//     const Gift = { where: { id: req.params.id } };
+//     models.user
+//       .destroy(Gift)
+//       .then(() => res.status(200).json({ message: "User Removed" }))
+//       .catch((err) => res.status(500).json({ error: err }));
+//   }
+// });
 module.exports = router;
