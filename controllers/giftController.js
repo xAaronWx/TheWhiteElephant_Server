@@ -67,22 +67,12 @@ router.delete("/delete/:id", validateSession, function (req, res) {
       )
       .catch((err) => res.status(500).json({ error: err }));
   } else {
-    Gift.destroy(query, admin)
+    Gift.destroy(admin)
       .then(() =>
-        res.status(200).json({ message: "This gift has been removed" })
+        res.status(200).json({ message: "The admin has removed this item" })
       )
       .catch((err) => res.status(500).json({ error: err }));
   }
 });
 
-// router.delete("/delete/:id", validateSession, async (req, res) => {
-//   const account_type = await req.user.role;
-//   if (account_type === "user") {
-//     const Gift = { where: { id: req.params.id } };
-//     models.user
-//       .destroy(Gift)
-//       .then(() => res.status(200).json({ message: "User Removed" }))
-//       .catch((err) => res.status(500).json({ error: err }));
-//   }
-// });
 module.exports = router;
