@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
 
 // HOSTED METHOD----------
+// COMMENT BELOW TO TEST LOCALLY
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
-  // COMMENT BELOW TO TEST LOCALLY
   dialectOptions: {
     ssl: {
       require: true,

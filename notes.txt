@@ -1,0 +1,7 @@
+heroku create thewhiteelephant-server
+
+heroku addons:create heroku-postgresql:hobby-dev --app thewhiteelephant-server
+
+git add .
+git commit -m "Server Deploy"
+git push heroku main
