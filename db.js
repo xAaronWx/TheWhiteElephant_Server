@@ -1,8 +1,22 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("TheWhiteElephant", "postgres", "password", {
-  host: "localhost",
+
+// HOSTED METHOD----------
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
+  // COMMENT BELOW TO TEST LOCALLY
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
+
+// LOCAL METHOD---------------
+// const sequelize = new Sequelize("TheWhiteElephant", "postgres", "password", {
+//   host: "localhost",
+//   dialect: "postgres",
+// });
 
 sequelize.authenticate().then(
   function () {

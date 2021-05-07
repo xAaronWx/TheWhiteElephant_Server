@@ -22,7 +22,7 @@ app.use("/gift", controllers.Gift);
 db.authenticate()
   .then(() => db.sync())
   .then(() =>
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log(`[server]: App is listening on localhost:3000`);
     })
   )
